@@ -1,0 +1,17 @@
+HDI Predictor Model Evaluation Report
+======================================
+Model Type: Linear Regression
+Train Dataset Size: 921
+Test Dataset Size: 231
+
+Mean Absolute Error (MAE):     0.009788
+Mean Squared Error (MSE):       0.000150
+Root Mean Squared Error (RMSE): 0.012235
+R-squared (R2 Score):           0.994687
+
+Coefficients:
+ - life_expectancy          :  0.135446
+ - expected_years_schooling : -0.038568
+ - mean_years_schooling     :  0.048172
+ - gni_per_capita           :  0.029362
+ - Intercept:                 0.728359

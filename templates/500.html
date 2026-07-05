@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Server Error (500){% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-12 col-md-8 col-lg-6 text-center">
+        <div class="card glass-card border-0 rounded-4 shadow p-4 p-md-5">
+            <div class="text-danger mb-4 fs-1 animate-bounce">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 4rem;"></i>
+            </div>
+            <h1 class="display-4 fw-extrabold font-outfit text-danger mb-2">500</h1>
+            <h4 class="fw-bold font-outfit text-muted mb-3">Model Pipeline Disturbance</h4>
+            <p class="text-muted mb-4 small">
+                An internal server error occurred while compiling predictions or loading data resources.
+                {% if error %}
+                    <br><strong class="text-danger-emphasis">Details:</strong> {{ error }}
+                {% endif %}
+            </p>
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{{ url_for('index') }}" class="btn btn-teal-gradient text-white font-outfit fw-bold px-4 py-2 rounded-3 shadow-sm">
+                    <i class="fa-solid fa-arrows-rotate me-2"></i>Retry Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

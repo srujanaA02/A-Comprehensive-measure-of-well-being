@@ -1,0 +1,340 @@
+/* ==========================================================================
+   CSS variables for theme customization (Light / Dark mode)
+   ========================================================================== */
+:root {
+    --font-inter: 'Inter', sans-serif;
+    --font-outfit: 'Outfit', sans-serif;
+    
+    /* Default Light Mode Custom Properties */
+    --bg-app: #f4f6fa;
+    --bg-sidebar: #ffffff;
+    --bg-navbar: rgba(255, 255, 255, 0.8);
+    --bg-card: rgba(255, 255, 255, 0.75);
+    --border-color: rgba(226, 232, 240, 0.8);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --shadow-color: rgba(148, 163, 184, 0.08);
+    
+    /* Brand Colors */
+    --teal-primary: #0d9488;
+    --teal-hover: #0f766e;
+    --teal-soft: rgba(13, 148, 136, 0.1);
+    
+    /* Soft status fills for light mode */
+    --primary-soft: rgba(59, 130, 246, 0.1);
+    --success-soft: rgba(34, 197, 94, 0.1);
+    --warning-soft: rgba(245, 158, 11, 0.1);
+    --danger-soft: rgba(239, 68, 68, 0.1);
+}
+
+[data-bs-theme="dark"] {
+    /* Dark Mode Custom Properties override */
+    --bg-app: #090d16;
+    --bg-sidebar: #0f172a;
+    --bg-navbar: rgba(15, 23, 42, 0.8);
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --border-color: rgba(51, 65, 85, 0.5);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    
+    /* Soft status fills for dark mode */
+    --primary-soft: rgba(59, 130, 246, 0.2);
+    --success-soft: rgba(34, 197, 94, 0.2);
+    --warning-soft: rgba(245, 158, 11, 0.2);
+    --danger-soft: rgba(239, 68, 68, 0.2);
+}
+
+/* ==========================================================================
+   Base Elements Layout & Styling
+   ========================================================================== */
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-inter);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.font-outfit {
+    font-family: var(--font-outfit);
+}
+
+.fw-extrabold {
+    font-weight: 800;
+}
+
+/* ==========================================================================
+   Sidebar Navigation Styles
+   ========================================================================== */
+.sidebar-wrapper {
+    width: 280px;
+    min-width: 280px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-column: column;
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.sidebar-wrapper .nav-link {
+    color: var(--text-secondary);
+    font-family: var(--font-outfit);
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 10px 16px;
+    transition: all 0.25s ease;
+}
+
+.sidebar-wrapper .nav-link:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.sidebar-wrapper .nav-link.active {
+    background: linear-gradient(135deg, var(--teal-primary), #0f766e);
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+}
+
+/* ==========================================================================
+   Navbar glassmorphism style
+   ========================================================================== */
+.glass-navbar {
+    background-color: var(--bg-navbar);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   Card components glassmorphism styles
+   ========================================================================== */
+.glass-card {
+    background-color: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   Button components and animations
+   ========================================================================== */
+.btn-teal-gradient {
+    background: linear-gradient(135deg, var(--teal-primary), #0d9488);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-teal-gradient:hover {
+    background: linear-gradient(135deg, #0f766e, #0f766e);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.3);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--teal-primary) 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   Hero Cards and Banners
+   ========================================================================== */
+.hero-card {
+    background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%);
+    border: none !important;
+}
+
+.hero-background-graphic {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(13,148,136,0.3) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.result-banner {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   Micro Interactions & Hover Effects
+   ========================================================================== */
+.metric-card {
+    cursor: default;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px var(--shadow-color);
+}
+
+.metric-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Soft variables background utility mapping */
+.bg-primary-soft { background-color: var(--primary-soft); }
+.bg-teal-soft { background-color: var(--teal-soft); }
+.bg-warning-soft { background-color: var(--warning-soft); }
+.bg-danger-soft { background-color: var(--danger-soft); }
+.bg-success-soft { background-color: var(--success-soft); }
+
+.text-teal { color: var(--teal-primary) !important; }
+
+/* Custom Spinner Overlay */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(9, 13, 22, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+/* Form controls customization */
+.form-control, .form-select {
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--bg-sidebar);
+    border-color: var(--teal-primary);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    color: var(--text-primary);
+}
+
+/* Theme Toggle Button Style */
+.btn-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.glass-btn {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.glass-btn:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Charts pane customizations */
+.chart-image {
+    max-height: 380px;
+    object-fit: contain;
+}
+
+.fs-7 { font-size: 0.85rem; }
+.fs-8 { font-size: 0.75rem; }
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-app);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Range input styling */
+.form-range::-webkit-slider-thumb {
+    background-color: var(--teal-primary);
+}
+.form-range::-moz-range-thumb {
+    background-color: var(--teal-primary);
+}
+.form-range::-ms-thumb {
+    background-color: var(--teal-primary);
+}
+
+/* Animated pulses */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+.animate-pulse {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   Print Optimization for PDF downloads
+   ========================================================================== */
+@media print {
+    body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    .sidebar-wrapper, .navbar, .card-footer, #btn-export-pdf, #btn-download-json {
+        display: none !important;
+    }
+    .main-container {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .glass-card {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+    }
+    .progress {
+        border: 1px solid #ccc !important;
+    }
+    #result-print-area {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .result-banner {
+        background-color: #f8f9fa !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

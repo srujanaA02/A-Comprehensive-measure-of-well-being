@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to Human Development Index (HDI) Predictor dashboard.">
+    <title>Login - HDI Predictor</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--bg-app) 0%, rgba(13, 148, 136, 0.05) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container p-3">
+        <div class="row justify-content-center">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="card glass-card border-0 rounded-4 shadow p-4 p-md-5 login-card">
+                    <!-- Brand Header -->
+                    <div class="text-center mb-4">
+                        <div class="text-teal mb-3 animate-pulse">
+                            <i class="fa-solid fa-earth-americas" style="font-size: 3.5rem;"></i>
+                        </div>
+                        <h2 class="fw-extrabold font-outfit text-dark-emphasis mb-1">Welcome Back</h2>
+                        <p class="text-muted small">Sign in to access the HDI Prediction System</p>
+                    </div>
+
+                    <!-- Error Alert -->
+                    {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show rounded-3 py-2 px-3 small mb-4" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>{{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="padding: 0.75rem 1rem;"></button>
+                    </div>
+                    {% endif %}
+
+                    <!-- Form -->
+                    <form action="{{ url_for('login') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold text-muted small">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-user"></i></span>
+                                <input type="text" class="form-control border-start-0 ps-0" id="username" name="username" value="admin" required placeholder="Enter username">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold text-muted small">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-lock"></i></span>
+                                <input type="password" class="form-control border-start-0 ps-0" id="password" name="password" value="admin123" required placeholder="Enter password">
+                            </div>
+                            <div class="form-text small-text text-muted">Prefilled with standard credentials for demo.</div>
+                        </div>
+
+                        <div class="mb-4 d-flex align-items-center justify-content-between">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember_me">
+                                <label class="form-check-label text-muted small" for="remember_me">Remember Me</label>
+                            </div>
+                            <a href="#" class="text-teal text-decoration-none small fw-semibold">Forgot Password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-teal-gradient w-100 text-white font-outfit fw-bold py-2 rounded-3 shadow-sm">
+                            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Sign In
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        // Set Theme dynamically from LocalStorage if available
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-bs-theme", savedTheme);
+    </script>
+</body>
+</html>

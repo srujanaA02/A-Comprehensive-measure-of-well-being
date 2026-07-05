@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Machine Learning powered Human Development Index (HDI) Predictor using life expectancy, education, and GNI.">
+    <title>{% block title %}HDI Predictor{% endblock %} - Human Development Index</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Full-screen Loading Spinner -->
+    <div id="loading-spinner" class="spinner-overlay d-none">
+        <div class="spinner-content text-center">
+            <div class="spinner-border text-teal mb-3" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h5 class="text-light-emphasis font-outfit fw-semibold">Analyzing Development Metrics...</h5>
+            <p class="text-muted small">Computing ML predictions and scaling dimensions</p>
+        </div>
+    </div>
+
+    <!-- Navigation & Layout -->
+    <div class="container-fluid p-0 d-flex align-items-stretch min-vh-100">
+        
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="sidebar-wrapper d-none d-lg-block">
+            <div class="sidebar-brand text-center p-4">
+                <a href="{{ url_for('index') }}" class="text-decoration-none">
+                    <span class="fs-4 fw-extrabold font-outfit text-gradient"><i class="fa-solid fa-earth-americas me-2"></i>HDI Predictor</span>
+                </a>
+            </div>
+            <hr class="mx-3 opacity-25">
+            <ul class="nav nav-pills flex-column mb-auto px-3 py-2 gap-1">
+                <li class="nav-item">
+                    <a href="{{ url_for('index') }}" class="nav-link {% if request.path == '/' or request.path == '/predict' %}active{% endif %}">
+                        <i class="fa-solid fa-chart-line me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('about') }}" class="nav-link {% if request.path == '/about' %}active{% endif %}">
+                        <i class="fa-solid fa-circle-info me-2"></i> About HDI
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('logout') }}" class="nav-link text-danger-soft-hover">
+                        <i class="fa-solid fa-arrow-right-from-bracket me-2 text-danger"></i> Sign Out
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer px-3 py-4 mt-auto">
+                <div class="d-flex align-items-center justify-content-between glass-panel p-3 rounded-3">
+                    <span class="small font-outfit text-muted"><i class="fa-solid fa-user-shield me-1"></i> AI Mode</span>
+                    <span class="badge bg-teal-soft text-teal">Active</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="flex-grow-1 d-flex flex-column min-vh-100 main-container">
+            <!-- Top Navbar -->
+            <header class="navbar navbar-expand navbar-light glass-navbar sticky-top px-4 py-3">
+                <div class="container-fluid p-0">
+                    <!-- Mobile Sidebar Toggle -->
+                    <button class="btn btn-outline-secondary d-lg-none me-3 border-0" id="sidebar-toggle-mobile" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars fs-5"></i>
+                    </button>
+
+                    <div class="me-auto d-lg-none">
+                        <a href="{{ url_for('index') }}" class="text-decoration-none text-dark">
+                            <span class="h5 fw-bold font-outfit mb-0"><i class="fa-solid fa-earth-americas text-teal me-2"></i>HDI</span>
+                        </a>
+                    </div>
+
+                    <!-- Right actions -->
+                    <div class="ms-auto d-flex align-items-center gap-3">
+                        <!-- Dark Mode Toggle -->
+                        <button id="theme-toggle" class="btn btn-circle glass-btn" title="Toggle Dark/Light Mode">
+                            <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
+                        </button>
+                        <!-- Logout Button -->
+                        <a href="{{ url_for('logout') }}" class="btn btn-circle glass-btn" title="Sign Out">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Body -->
+            <main class="flex-grow-1 p-3 p-md-4">
+                {% block content %}{% endblock %}
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer py-3 mt-auto border-top glass-panel">
+                <div class="container-fluid d-flex flex-column flex-sm-row justify-content-between align-items-center px-4">
+                    <p class="mb-0 text-muted small">&copy; 2026 Human Development Index Predictor. All rights reserved.</p>
+                    <p class="mb-0 text-muted small">Powered by <span class="fw-semibold text-teal">Scikit-Learn</span> & <span class="fw-semibold text-teal">Flask</span></p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

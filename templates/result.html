@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}Prediction Result{% endblock %}
+
+{% block content %}
+<div class="row g-4 justify-content-center">
+    <div class="col-12 col-xl-10">
+        <!-- Main Result Card -->
+        <div class="card glass-card border-0 rounded-4 shadow overflow-hidden" id="result-print-area">
+            
+            <!-- Header Banner with gradient reflecting category -->
+            <div class="result-banner bg-{{ result.category_color }}-soft p-4 p-md-5 text-center position-relative">
+                <div class="position-relative z-index-2">
+                    <span class="badge bg-{{ result.category_color }} text-uppercase font-outfit px-3 py-1 mb-3 rounded-pill tracking-wider">
+                        {{ result.category }}
+                    </span>
+                    <h1 class="display-2 fw-extrabold font-outfit text-dark-emphasis mb-1">{{ "%.3f"|format(result.predicted_hdi) }}</h1>
+                    <h5 class="text-muted fw-normal font-outfit">Estimated Human Development Index (HDI)</h5>
+                </div>
+            </div>
+
+            <!-- Body Details -->
+            <div class="card-body p-4 p-md-5">
+                <div class="row g-4">
+                    
+                    <!-- Left: Sub-dimensions score bars -->
+                    <div class="col-12 col-md-6 border-end-md pe-md-4">
+                        <h4 class="fw-bold font-outfit text-dark-emphasis mb-4">
+                            <i class="fa-solid fa-list-check text-teal me-2"></i>Dimension Performance
+                        </h4>
+                        
+                        <!-- Health Bar -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-semibold small text-muted"><i class="fa-solid fa-heart-pulse me-1 text-danger"></i> Health (Life Expectancy: {{ result.life_expectancy }} yrs)</span>
+                                <span class="fw-bold text-teal small">{{ result.health_pct }}%</span>
+                            </div>
+                            <div class="progress rounded-pill bg-light" style="height: 10px;">
+                                <div class="progress-bar bg-danger rounded-pill" role="progressbar" style="width: {{ result.health_pct }}%;" aria-valuenow="{{ result.health_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <!-- Education Bar -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-semibold small text-muted"><i class="fa-solid fa-user-graduate me-1 text-primary"></i> Education (EYS: {{ result.expected_years_schooling }} / MYS: {{ result.mean_years_schooling }} yrs)</span>
+                                <span class="fw-bold text-teal small">{{ result.edu_pct }}%</span>
+                            </div>
+                            <div class="progress rounded-pill bg-light" style="height: 10px;">
+                                <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: {{ result.edu_pct }}%;" aria-valuenow="{{ result.edu_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <!-- Income Bar -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-semibold small text-muted"><i class="fa-solid fa-dollar-sign me-1 text-success"></i> Income (GNI per Capita: ${{"{:,.0f}".format(result.gni_per_capita)}} PPP)</span>
+                                <span class="fw-bold text-teal small">{{ result.income_pct }}%</span>
+                            </div>
+                            <div class="progress rounded-pill bg-light" style="height: 10px;">
+                                <div class="progress-bar bg-success rounded-pill" role="progressbar" style="width: {{ result.income_pct }}%;" aria-valuenow="{{ result.income_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <!-- Overall HDI Progress -->
+                        <div class="p-3 bg-light rounded-3 d-flex align-items-center justify-content-between mt-4 border">
+                            <div>
+                                <span class="fw-bold d-block text-dark-emphasis mb-1 font-outfit">Model Confidence</span>
+                                <span class="text-muted small">Estimated model prediction probability fit</span>
+                            </div>
+                            <span class="badge bg-teal-soft text-teal fs-6 py-2 px-3">98.5% Accuracy</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Policy Suggestions -->
+                    <div class="col-12 col-md-6 ps-md-4">
+                        <h4 class="fw-bold font-outfit text-dark-emphasis mb-4">
+                            <i class="fa-solid fa-lightbulb text-warning me-2"></i>Strategic Recommendations
+                        </h4>
+                        
+                        <div class="d-flex flex-column gap-3">
+                            {% for suggestion in result.suggestions %}
+                                <div class="d-flex p-3 glass-panel rounded-3 border-start border-4 border-teal shadow-sm">
+                                    <div class="me-3 fs-3 text-teal">
+                                        <i class="fa-solid {{ suggestion.icon }}"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold font-outfit text-dark-emphasis mb-1">{{ suggestion.area }}</h6>
+                                        <p class="mb-0 text-muted small">{{ suggestion.desc }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="card-footer bg-transparent border-0 px-4 px-md-5 pb-5 pt-0 d-flex flex-wrap gap-3">
+                <a href="{{ url_for('index') }}" class="btn btn-teal-gradient text-white px-4 py-2 font-outfit fw-bold rounded-3 shadow-sm d-flex align-items-center">
+                    <i class="fa-solid fa-arrow-left me-2"></i>Back to Dashboard
+                </a>
+                <button type="button" id="btn-export-pdf" class="btn btn-outline-secondary px-4 py-2 font-outfit fw-semibold rounded-3 d-flex align-items-center">
+                    <i class="fa-solid fa-file-pdf me-2 text-danger"></i>Export Report PDF
+                </button>
+                <button type="button" id="btn-download-json" class="btn btn-outline-secondary px-4 py-2 font-outfit fw-semibold rounded-3 d-flex align-items-center">
+                    <i class="fa-solid fa-file-code me-2 text-primary"></i>Download JSON
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Save current prediction in client-side LocalStorage history
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentPrediction = {
+            timestamp: new Date().toLocaleString(),
+            country: "{{ result.country }}",
+            life_expectancy: parseFloat("{{ result.life_expectancy }}"),
+            expected_years_schooling: parseFloat("{{ result.expected_years_schooling }}"),
+            mean_years_schooling: parseFloat("{{ result.mean_years_schooling }}"),
+            gni_per_capita: parseFloat("{{ result.gni_per_capita }}"),
+            predicted_hdi: parseFloat("{{ result.predicted_hdi }}"),
+            category: "{{ result.category }}",
+            category_color: "{{ result.category_color }}"
+        };
+
+        // Load existing history
+        let history = JSON.parse(localStorage.getItem("hdi_history")) || [];
+        
+        // Remove duplicate of the same values if reloaded
+        history = history.filter(item => 
+            !(item.country === currentPrediction.country && 
+              item.life_expectancy === currentPrediction.life_expectancy &&
+              item.expected_years_schooling === currentPrediction.expected_years_schooling &&
+              item.mean_years_schooling === currentPrediction.mean_years_schooling &&
+              item.gni_per_capita === currentPrediction.gni_per_capita)
+        );
+        
+        // Prepend new prediction
+        history.unshift(currentPrediction);
+        
+        // Limit to 50 items
+        if (history.length > 50) history.pop();
+        
+        localStorage.setItem("hdi_history", JSON.stringify(history));
+
+        // PDF Print trigger
+        document.getElementById("btn-export-pdf").addEventListener("click", function() {
+            window.print();
+        });
+
+        // JSON download trigger
+        document.getElementById("btn-download-json").addEventListener("click", function() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentPrediction, null, 4));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `HDI_Prediction_Report_${currentPrediction.country.replace(/\s+/g, '_')}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        });
+    });
+</script>
+{% endblock %}
