@@ -1,2 +1,23 @@
+
+[project]
+name = "hdi-predictor"
+version = "1.0.0"
+description = "Human Development Index Prediction Application"
+requires-python = ">=3.12"
+dependencies = [
+    "Flask>=2.2.0",
+    "Flask-SQLAlchemy>=3.1.1",
+    "SQLAlchemy>=2.0.0",
+    "Werkzeug>=2.2.0",
+    "psycopg2-binary>=2.9.9",
+    "pandas>=1.5.0",
+    "numpy>=1.22.0",
+    "matplotlib>=3.6.0",
+    "seaborn>=0.12.0",
+    "scikit-learn>=1.1.0",
+    "requests>=2.28.0",
+    "joblib>=1.1.0"
+]
+
 [tool.vercel]
 entrypoint = "app:app"
