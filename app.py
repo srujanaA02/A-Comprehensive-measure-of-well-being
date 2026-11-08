@@ -9,15 +9,21 @@ import joblib
 from config import Config
 
 # Initialize Logging
+
+from config import Config
+
+# Initialize Logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app.log'))
-    ]
+        logging.StreamHandler()
+    ],
+    force=True
 )
+
 logger = logging.getLogger(__name__)
+
 
 # Initialize Flask app
 app = Flask(__name__)
